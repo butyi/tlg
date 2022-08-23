@@ -1,4 +1,4 @@
-# heater_pwm
+# TLG
 
 Team Leave Gift gadget
 
@@ -28,10 +28,12 @@ a 8bits resisitor ladder on 8 bit wide PTE port.
 ## Let's try
 
 I have started trial on my 48pin socket Uc trial board
-![trialboard](https://github.com/butyi/sci2can/raw/master/pics/demo9s08dz60.jpg)
+
+![trialboard](https://github.com/butyi/tlg/blob/main/trialboard.jpg)
 
 I have created the resistor ladder on this board
-![trialboard](https://github.com/butyi/sci2can/raw/master/pics/demo9s08dz60.jpg)
+
+![resistorladder](https://github.com/butyi/tlg/blob/main/resistorladder.jpg)
 
 To have the chime waveform in software I had
 - Downloaded the chime by [youtube-dl](https://youtube-dl.org/)
