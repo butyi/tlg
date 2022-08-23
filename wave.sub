@@ -1,0 +1,97 @@
+; ====================  VARIABLES  ============================================
+
+#RAM
+
+sample          ds      2       ; Sample pointer
+chimecnt        ds      1       ; Chime conter
+
+; ===================== Sub-Routines ==========================================
+#ROM
+
+; ------------------------------------------------------------------------------
+; Timer module initialization for PWM output
+WAV_Init
+        ; ------------------------------------------------------------------------------
+        ; Real-Time Counter (S08RTCV1)
+        ; This is periodic timer. (Like PIT in AZ60, TBM in GZ60 in the past) 
+        ;  - Select external clock (RTCLKS = 1)
+        ;  - Use interrupt to handle software timer variables (RTIE = 1)
+        ;  - RTCPS = 14 (10^5 means 4MHz/100000 = 40Hz)
+        ;  - RTCMOD = 100 (40Hz/40 = 1Hz -> 1s)
+        ; This will result 1s periodic interrupt.
+        clr     MCGC2           ; Speed up MCGOUT by select /1 divider
+        bset    IRCLKEN.,MCGC1  ; Enable IRCLK for RTC module
+        mov     #RTIE_|RTCLKS1_|8,RTCSC  ; Set fastest operation with internal clock
+        mov     #3,RTCMOD       ; Adjust interrupt speed nearest to 8kHz 
+        mov     #150,MCGTRM     ; Trim accurate 8kHz interrupt
+
+        ; Two PWM init for ponated and negated waveforms
+        mov     #$08,TPM1SC     ; TOF=0, TOIE=0, CPWMS=0, CLKS=01(bus), PS=000(/1)
+        mov     #1,TPM1MODH     ; (8MHz/1/256=31.25kHz)
+        mov     #0,TPM1MODL
+        mov     #$28,TPM1C0SC   ; CH0F=0, CH0IE=0, MS0B=1, MS0A=0(Dontcare), ELS0B=1, ELS0A=0
+        clr     TPM1C0VH        ; High byte is not needed due to 0-100 range
+        mov     #128,TPM1C0VL   ; Set middle level duty cycle
+        mov     #$28,TPM1C1SC   ; CH0F=0, CH0IE=0, MS0B=1, MS0A=0(Dontcare), ELS0B=1, ELS0A=0
+        clr     TPM1C1VH        ; High byte is not needed due to 0-100 range
+        mov     #128,TPM1C1VL   ; Set middle level duty cycle
+
+	; Speaker driver circuit is like this. This is actually a full bridge, but with
+	; transistors, because I had this parts at home, but did not have FETs.
+        ;                      +--------------+---- +3.6V                                                 
+        ;                      |              |                                           
+        ;                    |/c             c\|                                            
+        ;                 +--b  BC182   BC182  b--+                                               
+        ;                 |  |\e             e/|  |                                           
+        ; PTD2/TIM1CH0 ---|    |--[Speaker]--|    |-- PTD3/TIM1CH1                                                   
+        ;                 |  |/e             e\|  |                                          
+        ;                 +--b  BC212   BC212  b--+                                          
+        ;                    |\c             c/|                                           
+        ;                      |              |                                           
+        ;                      +--------------+---- GND                                                     
+        ;                                                                               
+
+        ldhx    #wave           ; Set pointer to start of sample array
+        sthx    sample
+        
+        clr     chimecnt
+
+        rts
+
+; Interrupt routine with 8kHz to update next sample of waveform
+RTC_IT
+        bset    RTIF.,RTCSC     ; Clear flag
+        pshh
+        pshx
+        psha
+        ldhx    sample
+	lda	,x              ; Load sample value
+	bne	validsample     ; Branch if waveform not yet finished
+        ldhx    #wave           ; Set pointer to start of sample array
+        sthx    sample
+        inc     chimecnt
+	lda	,x              ; Load first sample value
+validsample
+        clr     TPM1C0VH        ; Set phonated PWM level 
+        sta     TPM1C0VL
+        nega                    ; Invert value for differential drive
+        clr     TPM1C1VH        ; Set negated PWM level
+        sta     TPM1C1VL
+	aix	#1              ; Select next sample
+        sthx    sample          ; Save pointer
+        pula
+        pulx
+        pulh
+        rti
+
+; ===================== Constants =============================================
+; waveform 8bit sample size, 8kHz sample rate, 1.7s sound, 13600 bytes
+wave
+#include "wave.asm"
+
+
+; ===================== IT VECTORS ==========================================
+#VECTORS
+        org     Vrtc
+        dw      RTC_IT
+
