@@ -107,11 +107,11 @@ CAN is not needed, 5V DC-DC step-down supply is used because finally I used A23 
 I have written the software to use internal clock, so external resonator (Quarz) not needed.
 For hardware switch off, button is connected serial with supply battery.
 
-![board1](https://github.com/butyi/tlg/blob/main/board1.jpg)
+![board](https://github.com/butyi/tlg/blob/main/board.jpg)
 
 Additionally needed the two half-bridge and speaker.
 
-![bridge](https://github.com/butyi/tlg/blob/main/bridge.jpg)
+![bridges](https://github.com/butyi/tlg/blob/main/bridges.jpg)
 ![speaker](https://github.com/butyi/tlg/blob/main/speaker.jpg)
 
 ## Software
