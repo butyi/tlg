@@ -9,9 +9,9 @@ We wanted to give him some present by which he will remember our team and his wo
 Idea of team member Kristóf was to give a box with a small MP3 player board with battery and
 a button, which can play Ford warning chime.
 
-Fact, that I developed and produced a small UART to CAN converter box - called
-[sci2can](https://github.com/butyi/sci2can)
-- which we are using often in our team during daily job.
+Fact, that I developed and produced a small UART to CAN converter box called
+[sci2can](https://github.com/butyi/sci2can),
+which we are using often in our team during daily job.
 My idea was to try to play the warning chime with this converter box.
 This would be better because both hardware and chime voice are memory for him.
 
