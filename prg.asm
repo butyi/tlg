@@ -69,7 +69,7 @@ randomloop                      ; loop ADCRL times
         add     TPM1CNTL
         add     RTCCNT          ; RTC free running counter
         clrh
-        ldx     #71             ; Number of messages
+        ldx     #55             ; Number of messages
         div                     ; HA/X -> A, Reminder -> H
         pshh
         pula                    ; Now A = random % 71
@@ -193,8 +193,8 @@ messages
         db "Meg mindig nem  toltotted ki a  timereportot?                                                                                   "
         db "Hoch die Hande, Wochenende!                                                                                                     "
         db "Hoznal nekem is banant?                                                                                                         "
-        ;   0               0               0               0               0               0               0               0
         db "Borda?                                                                                                                          "
+        ;   0               0               0               0               0               0               0               0
         db "En vagyok az    sci2can box                                                                                                     "
         db "Kezmosaskor     csakket         papirtorlot     hasznalj!                                                                       "
         db "Mennyit         futottalma?                                                                                                     "
@@ -205,8 +205,8 @@ messages
         db "Kedvesss...     Peter                                                                                                           "
         db "Mivan kalacskepu?!                                                                                                              "
         db "KUTYAAAK!                                                                                                                       "
-        db "Csoves munkas   auto                                                                                                            "
         ;   0               0               0               0               0               0               0               0
+        db "Csoves munkas   auto                                                                                                            "
         db "Szia Lajos!                                                                                                                     "
         db "Mer', nem vagyokrendessen?                                                                                                      "
         db "Kutyadat itt    setaltatod?                                                                                                     "
@@ -215,8 +215,8 @@ messages
         db "Ne legyel       gengszter!                                                                                                      "
         db "Bocsi, csak egy kerdes                                                                                                          "
         db "Eppen ezaz hogy                                                                                                                 "
-        ;   0               0               0               0               0               0               0               0
         db "Gyorsan                                                                                                                         "
+        ;   0               0               0               0               0               0               0               0
         db "Meg 5 perc                                                                                                                      "
         db "Csocsok es segg                                                                                                                 "
         db "BLAZS                                                                                                                           "
@@ -226,24 +226,23 @@ messages
         db "Onkoltseges a   buli?                                                                                                           "
         db "Spongyabob      BARBAR                                                                                                          "
         db "Ki lakik        odalentkit rejt a viz? Tunyacsaptestver!                                                                        "
-        ;   0               0               0               0               0               0               0               0
         db "Kurvanagy a baj                                                                                                                 "
+        ;   0               0               0               0               0               0               0               0
         db "Bezzeg a        Zsuzsikanal     milyen jo volt!                                                                                 "
         db "Kicsengettek!                                                                                                                   "
         db "De Belam!                                                                                                                       "
         db "NULLAAA                                                                                                                         "
         db "Van ra request?                                                                                                                 "
         db "Ebedre kinai?                                                                                                                   "
-        ;   0               0               0               0               0               0               0               0
         db "Bikas gyros?                                                                                                                    "
         db "Ez nem barna,   ez oarany                                                                                                       "
         db "A korforgalombolhajts ki a 4.   kijaraton                                                                                       "
         db "Ez a nap mar a  kutyake                                                                                                         "
+        ;   0               0               0               0               0               0               0               0
         db "Csak a sor-vodka                                                                                                                "
         db "SZIA!           PETI VAGYOK!                                                                                                    "
         db "kolbaszos bufi  intensifies                                                                                                     "
         db "Kikapcsolashoz  nyomja meg a    nyomogombot     33-szor                                                                         "
-        ;   0               0               0               0               0               0               0               0
         db "A keszulek      elofizetese     lejart.                                                                                         "
 
 members
